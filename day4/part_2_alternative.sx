@@ -6,7 +6,7 @@ $passportWithVerification=<<<END
   $hcl='hcl:' ('#' [a-z0-9]{6}):value                                           >>[ \n] <'ok_hcl'>:key;
   $ecl='ecl:' ('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth'):value     >>[ \n] <'ok_ecl'>:key;
   $pid='pid:' [0-9]{9}:value                                                    >>[ \n] <'ok_pid'>:key;
-  $any=LD:key (':' LD:value >>[ \n]);
+  $any=(LD (':' LD)):value                                                      >>[ \n] <'invalid_kvp'>:key;
 
   KVP{
     ($byr | $iyr | $eyr | $hgt | $hcl | $ecl | $pid | $any) [ \n]
