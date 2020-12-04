@@ -3,7 +3,10 @@ $passportFakeJsonFormat=<<<END
     (>>[^0] INT(min=1920, max=2002):v):byr,
     (>>[^0] INT(min=2010, max=2020):v):iyr,
     (>>[^0] INT(min=2010, max=2030):v):eyr,
-    ((INT(min=150, max=193):val 'cm':unit) | (INT(min=59, max=76):val 'in':unit)):hgt,
+    (   
+        (INT(min=150, max=193):val 'cm':unit) 
+      | (INT(min=59,  max=76 ):val 'in':unit)
+	):hgt,
     ('#' [a-z0-9]{6}):hcl,
     ('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth'):ecl,
     ([0-9]{9}):pid,
