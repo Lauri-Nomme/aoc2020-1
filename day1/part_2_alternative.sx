@@ -1,7 +1,5 @@
-//LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day1/input/test.txt')
-
 LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day1/input/input.txt')
-| parse(pattern:"ARRAY{INT:num EOL}{1,32000}:arr")
+| PARSE(pattern:"ARRAY{INT:num EOL}{1,32000}:arr")
 | select(n1:unnest(arr))
 | select(j:2020-n1)
 | filter(j > 0)

@@ -1,8 +1,7 @@
 $asel(p)=array_select(trees, int($p % size(trees)));
 
-//list('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/test.txt')
-list('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/input.txt')
-| parse("(BOS LD EOL)? ARRAY{('.' | ('#' <true>:v))}*:trees EOL")
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/input.txt')
+| PARSE("(BOS LD EOL)? ARRAY{('.' | ('#' <true>:v))}*:trees EOL")
 | select(r:rowId(), *)
 | select(
     r1d1:count($asel(r*1)),

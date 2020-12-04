@@ -1,6 +1,4 @@
-//LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/test.txt')
-
-LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt')
+list('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt')
 | parse(pattern:"KVP{LD:key ':' LD:value (' ' | ('\n'))}:passport ('\n' | EOF)")
 | select(mandatory:[@1[byr], @1[iyr], @1[eyr], @1[hgt], @1[hcl], @1[ecl], @1[pid]])
-| select(answer:count(SIZE(mandatory) == size(ARRAY_REMOVE_NULLS(mandatory))))
+| select(answer:count(SIZE(mandatory) == size(array_remove_nulls(mandatory))))

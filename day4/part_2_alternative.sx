@@ -12,8 +12,7 @@ $passportWithVerification=<<<END
   KVP{($byr | $iyr | $eyr | $hgt | $hcl | $ecl | $pid | $any) [ \n]}:passport (EOL | EOF)
 END;
 
-//LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/test.txt')
 LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt')
-| parse(pattern:$passportWithVerification)
+| PARSE(pattern:$passportWithVerification)
 | select(verified:[@1[ok_byr], @1[ok_iyr], @1[ok_eyr], @1[ok_hgt], @1[ok_hcl], @1[ok_ecl], @1[ok_pid]])
 | select(answer:count(SIZE(verified) == size(ARRAY_REMOVE_NULLS(verified))))
