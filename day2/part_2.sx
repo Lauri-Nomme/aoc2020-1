@@ -1,7 +1,10 @@
 //LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day2/input/test.txt')
 
 LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day2/input/input.txt')
-| parse(pattern:"INT:min '-' INT:max ' ' [a-z]:char ': ' DATA:password EOL")
-| select(symCnt:size(split(password, char))-1)
-| filter(symCnt >= min AND symCnt <= max)
+| parse(pattern:"INT:p1 '-' INT:p2 ' ' [a-z]:char ': ' DATA:password EOL")
+| select(c1:charat(password, int(p1-1)), c2:charat(password, int(p2-1)))
+| filter((c1 == char) != (c2 == char))
 | select(answer:count(*))
+
+
+
