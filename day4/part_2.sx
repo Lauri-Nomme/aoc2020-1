@@ -1,0 +1,19 @@
+//LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/test.txt')
+
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt')
+| parse(pattern:"KVP{LD:key ':' LD:value (' ' | ('\n'))}:passport ('\n' | EOF)")
+| select(@1[byr], @1[iyr], @1[eyr], @1[hgt], @1[hcl], @1[ecl], @1[pid], @1[cid])
+| select(mandatory:[byr,iyr,eyr,hgt,hcl,ecl,pid])
+| select(input_valid:(
+      parse(">>[^0] INT(min=1920, max=2002) EOF", byr)
+  AND parse(">>[^0] INT(min=2010, max=2020) EOF", iyr)
+  AND parse(">>[^0] INT(min=2010, max=2030) EOF", eyr)
+  AND parse("((INT(min=150, max=193) 'cm') | (INT(min=59, max=76) 'in')) EOF", hgt)
+  AND parse("'#' [a-z0-9]{6} EOF", hcl)
+  AND parse("('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth') EOF", ecl)
+  AND parse("[0-9]{9} EOF", pid))
+)
+| select(
+  answer1:count(size(mandatory) == size(array_remove_nulls(mandatory))),
+  answer2:count(input_valid),
+)

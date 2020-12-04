@@ -1,0 +1,19 @@
+// SpectX Pattern
+$passportWithVerification=<<<END
+  $byr='byr:' >>[^0] (INT(min=1920, max=2002)):value >>[ \n] <'ok_byr'>:key;
+  $iyr='iyr:' >>[^0] (INT(min=2010, max=2020)):value >>[ \n] <'ok_iyr'>:key;
+  $eyr='eyr:' >>[^0] (INT(min=2010, max=2030)):value >>[ \n] <'ok_eyr'>:key;
+  $hgt='hgt:' ((INT(min=150, max=193) 'cm') | (INT(min=59, max=76) 'in')):value >>[ \n] <'ok_hgt'>:key;
+  $hcl='hcl:' ('#' [a-z0-9]{6}):value >>[ \n] <'ok_hcl'>:key;
+  $ecl='ecl:' ('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth'):value >>[ \n] <'ok_ecl'>:key;
+  $pid='pid:' [0-9]{9}:value >>[ \n] <'ok_pid'>:key;
+  $any=LD:key ':' LD:value >>[ \n];
+
+  KVP{($byr | $iyr | $eyr | $hgt | $hcl | $ecl | $pid | $any) [ \n]}:passport (EOL | EOF)
+END;
+
+//LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/test.txt')
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt')
+| parse(pattern:$passportWithVerification)
+| select(verified:[@1[ok_byr], @1[ok_iyr], @1[ok_eyr], @1[ok_hgt], @1[ok_hcl], @1[ok_ecl], @1[ok_pid]])
+| select(answer:count(SIZE(verified) == size(ARRAY_REMOVE_NULLS(verified))))
