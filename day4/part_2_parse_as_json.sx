@@ -6,7 +6,7 @@ $passportFakeJsonFormat=<<<END
     (   
         (INT(min=150, max=193):val 'cm':unit) 
       | (INT(min=59,  max=76 ):val 'in':unit)
-	):hgt,
+    ):hgt,
     ('#' [a-z0-9]{6}):hcl,
     ('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth'):ecl,
     ([0-9]{9}):pid,
