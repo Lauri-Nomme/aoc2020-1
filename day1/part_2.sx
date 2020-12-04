@@ -1,0 +1,7 @@
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day1/input/input.txt')
+| parse(pattern:"ARRAY{INT:num EOL}{1,32000}:arr")
+| select(n1:unnest(arr), n2:unnest(arr), n3:unnest(arr))
+| filter(n1+n2+n3 = 2020)
+| select(answer:n1*n2*n3)
+| limit(1)
+
