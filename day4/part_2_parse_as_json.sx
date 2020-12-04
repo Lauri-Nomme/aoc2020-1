@@ -7,7 +7,7 @@ $passportFakeJsonFormat=<<<END
     ('#' [a-z0-9]{6}):hcl,
     ('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth'):ecl,
     ([0-9]{9}):pid,
-	STRING:cid
+    STRING:cid
   }(strict=false, greedy='other'):passport
 END;
 
