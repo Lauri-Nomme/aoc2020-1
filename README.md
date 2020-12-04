@@ -10,7 +10,9 @@ The queries run on test data or @iiton's input. Replace the path in the LIST row
 
 For example:
 ```jsx
-LIST('file:/Users/iiton/Downloads/input.txt')
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day1/input/input.txt')
+->
+LIST('file:/Users/john/Downloads/input.txt')
 ```
 
 Documentation: https://docs.spectx.com
