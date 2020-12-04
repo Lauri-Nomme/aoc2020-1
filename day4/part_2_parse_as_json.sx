@@ -1,0 +1,28 @@
+$passportFakeJsonFormat=<<<END
+  JSON{
+    (>>[^0] INT(min=1920, max=2002):v):byr,
+    (>>[^0] INT(min=2010, max=2020):v):iyr,
+    (>>[^0] INT(min=2010, max=2030):v):eyr,
+    ((INT(min=150, max=193):val 'cm':unit) | (INT(min=59, max=76):val 'in':unit)):hgt,
+    ('#' [a-z0-9]{6}):hcl,
+    ('amb' | 'blu' | 'brn' | 'gry' | 'grn' | 'hzl' | 'oth'):ecl,
+    ([0-9]{9}):pid,
+	STRING:cid
+  }(strict=false, greedy='other'):passport
+END;
+
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt')
+| parse("DATA:record ('\n\n' | ('\n' EOF))")
+| select(passport:parse($passportFakeJsonFormat, '{' + record + '}'))
+| select(spread(passport))  // spread structure of passport
+//| filter(size(other) > 0) invalid values
+| filter_out(
+       byr IS NULL 
+    OR iyr IS NULL
+    OR eyr IS NULL
+    OR hgt IS NULL
+    OR hcl IS NULL
+    OR ecl IS NULL
+    OR pid IS NULL
+)
+| select(answer:count(*))
