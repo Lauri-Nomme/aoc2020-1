@@ -15,7 +15,6 @@ LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day4/input/input.txt
 | parse("DATA:record ('\n\n' | ('\n' EOF))")
 | select(passport:parse($passportFakeJsonFormat, '{' + record + '}'))
 | select(spread(passport))  // spread structure of passport
-//| filter(size(other) > 0) invalid values
 | filter_out(
        byr IS NULL 
     OR iyr IS NULL
