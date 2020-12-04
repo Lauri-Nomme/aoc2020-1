@@ -1,0 +1,6 @@
+//list('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/test.txt')
+
+list('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/input.txt')
+| parse("(BOS LD EOL)? ARRAY{('.' | '#'):o}*:map EOL")
+| select(count('#' == array_select(map, int((rowId()*3) % size(map)))))
+

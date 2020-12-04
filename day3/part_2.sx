@@ -1,0 +1,14 @@
+$asel(p)=array_select(trees, int($p % size(trees)));
+
+//list('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/test.txt')
+list('https://raw.githubusercontent.com/spectx/aoc2020/main/day3/input/input.txt')
+| parse("(BOS LD EOL)? ARRAY{('.' | ('#' <true>:v))}*:trees EOL")
+| select(r:rowId(), *)
+| select(
+    r1d1:count($asel(r*1)),
+    r3d1:count($asel(r*3)),
+    r5d1:count($asel(r*5)),
+    r7d1:count($asel(r*7)),
+    r1d2:count(r%2 == 0 AND $asel(r/2))
+)
+| select(answer1:r3d1, answer2:r1d1*r3d1*r5d1*r7d1*r1d2)
