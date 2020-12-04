@@ -4,4 +4,3 @@ LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day1/input/input.txt
 | filter(n1+n2+n3 = 2020)
 | select(answer:n1*n2*n3)
 | limit(1)
-

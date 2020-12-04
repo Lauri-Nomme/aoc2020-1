@@ -10,4 +10,3 @@ LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day1/input/input.txt
 | filter(j = n3)
 | select(result:n1*n2*n3)
 | limit(1)
-
