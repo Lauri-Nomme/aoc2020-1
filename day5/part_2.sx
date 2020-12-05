@@ -1,12 +1,8 @@
 $b(b)   =if(array_select(_raw_bytes, $b) & 0x4 == 0, 1 << (9-$b), 0L);
-$seatId()=$b(0)+$b(1)+$b(2)+$b(3)+$b(4)+$b(5)+$b(6)+$b(7)+$b(8)+$b(9);
+$seatId()=$b(0)|$b(1)|$b(2)|$b(3)|$b(4)|$b(5)|$b(6)|$b(7)|$b(8)|$b(9);
 
 parse('https://raw.githubusercontent.com/spectx/aoc2020/main/day5/input/input.txt')
 | select($seatId())
-| select(row:seatId >> 3, seats:array_agg(seatId & 0x7))
-| group(row)
-| limit(1,1 << 10)
-| filter(size(seats) != 1 << 3)
-| select(ms:int((0x7 << 2)-array_sum(seats)))
-| limit(1)
-| select(answer:(row << 3) + ms)
+| sort(seatId)
+| filter(seatId-prev(seatId) = 2)
+| select(answer:seatId-1)
