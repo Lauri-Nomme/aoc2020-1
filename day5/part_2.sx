@@ -1,4 +1,4 @@
-$b(b)   =if(array_select(_raw_bytes, $b) & 0x4 == 0, 1 << (9-$b), 0L);
+$b(b)    =if(array_select(_raw_bytes, $b) & 0x4 == 0, 0x200 >> $b, 0);
 $seatId()=$b(0)|$b(1)|$b(2)|$b(3)|$b(4)|$b(5)|$b(6)|$b(7)|$b(8)|$b(9);
 
 parse('https://raw.githubusercontent.com/spectx/aoc2020/main/day5/input/input.txt')
