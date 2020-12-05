@@ -1,0 +1,17 @@
+$b(src,bit)=
+  CASE charat($src, $bit)
+    WHEN 'B' THEN 1 << (9-$bit)
+    WHEN 'R' THEN 1 << (9-$bit)
+    ELSE 0L
+  END
+;
+
+$seatId(src)=
+  $b($src,0) + $b($src,1) + $b($src,2) + $b($src,3) + $b($src,4) +
+  $b($src,5) + $b($src,6) + $b($src,7) + $b($src,8) + $b($src,9)
+;
+
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day5/input/input.txt')
+| parse(pattern:"LD:passId EOL")
+| select($seatId(passId), *)
+| select(answer:max(seatId))
