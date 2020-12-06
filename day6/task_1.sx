@@ -1,0 +1,10 @@
+LIST('file:/data/spectx/data/aoc2020/day6/input/input.txt')
+| parse(pattern:"<pos>:groupId ARRAY{LD:l EOL}*:arr (EOL | EOF)")
+| select(groupId, p:size(arr), a:unnest(split(unnest(@2), '')))
+| group(groupId, a)
+| filter_out(a = '')
+| select(groupId, count(*))
+| group(groupId)
+| select(sum_long(count))
+
+// 7027

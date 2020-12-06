@@ -1,0 +1,22 @@
+@src=LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day6/input/input.txt')
+| parse(pattern:"<pos>:groupId ARRAY{<pos>:personId ARRAY{[a-z]:a}+:checks EOL }*:decls (EOL | EOF)")
+| select(groupId, unnest(decls))
+| select(groupId, @2[personId], check:unnest(@2[checks]))
+| group(groupId, personId, check)
+;
+
+
+@inGroup=@src
+| group(groupId, personId)
+| select(groupId, persons:count(*))
+| group(groupId)
+;
+
+@src
+| left_join(@inGroup on groupId)
+| select(groupId, check, count(*))
+| group(groupId, check)
+| select(persons, *)
+| filter(persons = count)
+| select(count(*))
+
