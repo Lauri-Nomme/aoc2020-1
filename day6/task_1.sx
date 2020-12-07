@@ -1,10 +1,5 @@
 LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day6/input/input.txt')
-| parse(pattern:"<pos>:groupId ARRAY{LD:l EOL}*:arr (EOL | EOF)")
-| select(groupId, p:size(arr), a:unnest(split(unnest(@2), '')))
-| group(groupId, a)
-| filter_out(a = '')
-| select(groupId, count(*))
-| group(groupId)
-| select(sum_long(count))
-
-// 7027
+| parse(pattern:"ARRAY{ARRAY{[a-z]:x}+:l EOL}*:arr (EOL | EOF)")
+| select(unnest(unnest(@1)))
+| group(@1, _raw_offset)
+| select(answer:count(*))
