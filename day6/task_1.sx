@@ -1,4 +1,4 @@
-LIST('file:/data/spectx/data/aoc2020/day6/input/input.txt')
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day6/input/input.txt')
 | parse(pattern:"<pos>:groupId ARRAY{LD:l EOL}*:arr (EOL | EOF)")
 | select(groupId, p:size(arr), a:unnest(split(unnest(@2), '')))
 | group(groupId, a)

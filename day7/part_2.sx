@@ -1,0 +1,31 @@
+$ccount(arr,bag)=CREATE FUNCTION(
+  language:'javascript',
+  returns::long,
+  code:<<<END
+
+  function getCnt(b) {
+    var children = [];
+    
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i]['bag'] !== b) continue;
+      var a = arr[i]['inner'];
+      if (a == undefined) continue;
+      for (j = 0; j < a.length; j++) 
+        children.push({bag: a[j]['bag'],amount: a[j]['amount']});
+    }
+
+    var res = 0;
+    for (var i = 0; i < children.length; i++) {
+      res += children[i]['amount'] * (1+getCnt(children[i]['bag']));
+    }
+
+    return res;
+  }
+  
+  return getCnt(bag);
+END
+);
+
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day7/input/input.txt')
+| parse(pattern:"(LD ' ' LD):bag ' bags contain ' ('no other bags' | ARRAY{INT:amount ' ' (LD ' ' LD):bag ' bag' 's'? ', '?}*:inner) '.' EOL")
+| select(answer:$ccount(ARRAY_AGG({*}), 'shiny gold'))

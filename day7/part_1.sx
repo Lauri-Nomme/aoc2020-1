@@ -1,0 +1,17 @@
+@rules=
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day7/input/input.txt')
+| parse(pattern:"(LD ' ' LD):outer ' bags contain ' ('no other bags' | ARRAY{INT:amount ' ' (LD ' ' LD):bag ' bag' 's'? ', '?}*:inner) '.' EOL")
+| select(outer, inner:unnest(inner))
+| select(outer, inner:inner[bag])
+;
+
+@rules
+| filter(inner = 'shiny gold') | group(@1) | select(outer:@1)
+| left_join(@rules on left.outer = right.inner) | select(unnest([@1, @2])) | group(@1) | filter(@1 is not null) | select(outer:@1)
+| left_join(@rules on left.outer = right.inner) | select(unnest([@1, @2])) | group(@1) | filter(@1 is not null) | select(outer:@1)
+| left_join(@rules on left.outer = right.inner) | select(unnest([@1, @2])) | group(@1) | filter(@1 is not null) | select(outer:@1)
+| left_join(@rules on left.outer = right.inner) | select(unnest([@1, @2])) | group(@1) | filter(@1 is not null) | select(outer:@1)
+| left_join(@rules on left.outer = right.inner) | select(unnest([@1, @2])) | group(@1) | filter(@1 is not null) | select(outer:@1)
+| left_join(@rules on left.outer = right.inner) | select(unnest([@1, @2])) | group(@1) | filter(@1 is not null) | select(outer:@1)
+// repeat last line until result is stable.
+| select(answer:count(*))
