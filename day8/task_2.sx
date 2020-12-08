@@ -1,0 +1,29 @@
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day8/input/input.txt')
+| parse(pattern:"('acc' | 'jmp' | 'nop'):op ' ' INT:arg EOL")
+| select(array_agg({add:if(op = 'acc', arg, 0), jmp:if(op in ['jmp','nop'], arg, 1), op}))
+| select(answer2:js_typed(long(), "
+  for(var i=0; i<arg1.length; i++) {
+    var acc=0; var pc=0; var dc=[];
+    while(true) {
+      if(pc == arg1.length) return acc;
+      if (dc[pc]) break;
+      dc[pc]=true;
+      acc+=arg1[pc]['add'];
+      var op = arg1[pc]['op'];
+
+      if(pc == i && op == 'jmp') {
+         op = 'nop';         
+					  
+      } else if (pc == i && op == 'nop') {
+         op = 'jmp'
+      }
+
+      if(op=='jmp') {
+         pc+=arg1[pc]['jmp'];
+	  } else {
+         pc+=1;
+      }
+    }
+  }
+  ", @1))
+
