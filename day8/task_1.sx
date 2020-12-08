@@ -1,0 +1,12 @@
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day8/input/input.txt')
+| parse(pattern:"('acc' | 'jmp' | 'nop'):op ' ' INT:arg EOL")
+| select(array_agg({add:if(op = 'acc', arg, 0), jmp:if(op = 'jmp', arg, 1)}))
+| select(answer1:js_typed(long(), "
+  var acc=0; var pc=0; var dc=[];
+  while(true) {
+    if (dc[pc]) return acc;
+    dc[pc]=true;
+    acc+=arg1[pc]['add'];
+    pc+=arg1[pc]['jmp'];
+  }
+  ", @1))

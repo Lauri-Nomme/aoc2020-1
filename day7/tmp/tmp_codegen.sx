@@ -1,0 +1,11 @@
+LIST('https://raw.githubusercontent.com/spectx/aoc2020/main/day7/input/input.txt')
+| parse(pattern:"(LD ' ' LD):bag ' bags contain ' ('no other bags' | ARRAY{INT:amount ' ' (LD ' ' LD):bag ' bag' 's'? ', '?}*:inner) '.' EOL")
+| select(bag, unnest(inner))
+| select(bag, @2[amount], @2[bag])
+| select(bag:REPLACEALL(bag, ' ', '_'), amount, bag_3:REPLACEALL(bag_3, ' ', '_'))
+| select(@1, if(amount is null, '0', amount+' * (1+' + bag_3 + '())'))
+| select(bag, ARRAY_AGG(if))
+| group(bag)
+| select(bag, ARRAY_JOIN(@2, ' + '))
+| select("function " + bag + "() {return " + array_join + ";};")
+
