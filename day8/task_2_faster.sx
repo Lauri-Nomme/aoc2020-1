@@ -1,0 +1,30 @@
+LIST('https://gist.githubusercontent.com/Lauri-Nomme/dac680e1a834269e20673cf9076b01e2/raw/9520b9e95d789776cf7edf3553689160f570834c/aoc2020day8.txt')
+//LIST('https://gist.githubusercontent.com/Lauri-Nomme/bfa89baf29bf09b08e4abde3f11f160a/raw/4048d48d3d3852459156e0f0828230f8bb8bf4c7/aoc2020day8test.txt')
+| parse(pattern:"('acc' | 'jmp' | 'nop'):op ' ' INT:arg (EOL|EOF)")
+| select(array_agg({arg:arg, op}))
+| select(answer2:js_typed(
+  var({}),"
+  function eval(acc, pc, trace, flip, overrideOp) {
+    var trace2 = [];
+    while(true) {
+      if (pc == arg1.length) return ['ret', acc];
+      if (trace[pc] || trace2[pc]) return ['loop', pc, acc];
+  
+      var op = arg1[pc]['op'];
+      if (overrideOp) {
+        op = overrideOp;
+        overrideOp = null;
+      }
+      
+      if (flip && (op == 'jmp' || op == 'nop')) {
+        var res = eval(acc, pc, trace2, false, op == 'jmp' ? 'nop' : 'jmp');
+        if (res[0] == 'ret') return res;
+      }
+  
+      acc += op == 'acc' ? arg1[pc]['arg'] : 0;
+      trace2[pc] = true;
+      pc += op == 'jmp' ? arg1[pc]['arg'] : 1;
+    }
+  }
+  return eval(0, 0, [], true);
+  ", @1))
